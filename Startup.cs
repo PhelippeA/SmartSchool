@@ -28,8 +28,17 @@ namespace SmartSchool.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SmartSchoolContext>(context => context.UseSqlite(Configuration.GetConnectionString("default")));
-            services.AddControllers();
+            services.AddDbContext<SmartSchoolContext>(context => 
+                context.UseSqlite(Configuration.GetConnectionString("default"))
+            );
+            
+            services.AddScoped<IRepository, Repository>();
+            
+            services.AddControllers()
+                    .AddNewtonsoftJson(opt => 
+                        opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartSchool.WebApi", Version = "v1" });
