@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Mw7AZOl9t4RBUR49FMxit6Fm9f3Vj+vuvigo+EDnOx2GDyxfAWRDZCwClgJdU1n52WJowKmXUh7MzeWkQPI8AQ==",
+  "dgSpecHash": "fwcSdInDLh3AhqsahlJexWQx5oiK+rnfzd16seLKxrzAbvAvtEMLUfaI2o6hPjCXZ/D0MSjZQTNsc0dnm4Oc2g==",
   "success": true,
   "projectFilePath": "C:\\Codigos\\C#\\SmartSchool\\SmartSchool.WebApi\\SmartSchool.WebApi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\lipeo\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
+    "C:\\Users\\lipeo\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
     "C:\\Users\\lipeo\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\lipeo\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\5.0.5\\microsoft.aspnetcore.jsonpatch.5.0.5.nupkg.sha512",
     "C:\\Users\\lipeo\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\5.0.5\\microsoft.aspnetcore.mvc.newtonsoftjson.5.0.5.nupkg.sha512",
@@ -43,7 +45,8 @@
     "C:\\Users\\lipeo\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",
     "C:\\Users\\lipeo\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\lipeo\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.1\\system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512",
-    "C:\\Users\\lipeo\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+    "C:\\Users\\lipeo\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\lipeo\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }
