@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.WebApi.Models;
 
@@ -29,7 +31,7 @@ namespace SmartSchool.WebApi.Data
             return _context.SaveChanges() > 0;
         }
 
-        public Aluno[] GetAllAlunos(bool includeProfessor = false)
+        public async Task<Aluno[]> GetAllAlunos(bool includeProfessor = false)
         {
             IQueryable<Aluno> query = _context.Alunos;
             
@@ -40,10 +42,10 @@ namespace SmartSchool.WebApi.Data
             }
             query = query.AsNoTracking().OrderBy(a => a.Id);
             
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
 
-        public Aluno[] GetAllAlunosByDisciplinaId(int disciplinaId, bool includeProfessor = false)
+        public async Task<Aluno[]> GetAllAlunosByDisciplinaId(int disciplinaId, bool includeProfessor = false)
         {
             IQueryable<Aluno> query = _context.Alunos;
             
@@ -57,10 +59,10 @@ namespace SmartSchool.WebApi.Data
                          .Where(a => a.AlunosDisciplinas
                          .Any(ad => ad.DisciplinaId == disciplinaId));
 
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
 
-        public Aluno GetAlunoById(int alunoId, bool includeProfessor = false)
+        public async Task<Aluno> GetAlunoById(int alunoId, bool includeProfessor = false)
         {
             IQueryable<Aluno> query = _context.Alunos;
             
@@ -71,10 +73,11 @@ namespace SmartSchool.WebApi.Data
             }
 
             query = query.AsNoTracking().Where(a => a.Id == alunoId);
-            return query.FirstOrDefault();
+            
+            return await query.FirstOrDefaultAsync();
         }
 
-        public Professor[] GetAllProfessores(bool includeAlunos)
+        public async Task<Professor[]> GetAllProfessores(bool includeAlunos)
         {
             IQueryable<Professor> query = _context.Professores;
             
@@ -85,10 +88,10 @@ namespace SmartSchool.WebApi.Data
             }
             query = query.AsNoTracking().OrderBy(p => p.Id);
             
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
 
-        public Professor[] GetAllProfessoresByDisciplinaId(int disciplinaId, bool includeAlunos)
+        public async Task<Professor[]> GetAllProfessoresByDisciplinaId(int disciplinaId, bool includeAlunos)
         {
             IQueryable<Professor> query = _context.Professores;
             
@@ -104,10 +107,10 @@ namespace SmartSchool.WebApi.Data
                              d => d.AlunosDisciplinas.Any(ad => ad.DisciplinaId == disciplinaId)
                          ));
             
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
 
-        public Professor GetProfessorById(int professorId, bool includeAlunos)
+        public async Task<Professor> GetProfessorById(int professorId, bool includeAlunos)
         {
             IQueryable<Professor> query = _context.Professores;
             
@@ -120,7 +123,7 @@ namespace SmartSchool.WebApi.Data
             query = query.AsNoTracking()
                          .Where(p => p.Id == professorId);
             
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
     }
 }

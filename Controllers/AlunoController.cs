@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SmartSchool.WebApi.Data;
-using SmartSchool.WebApi.Dtos;
+using SmartSchool.WebApi.Dtos.AlunoDtos;
 using SmartSchool.WebApi.Models;
 
 namespace SmartSchool.WebApi.Controllers
@@ -21,15 +22,15 @@ namespace SmartSchool.WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var alunos = _repo.GetAllAlunos(true);
+            var alunos = await _repo.GetAllAlunos(true);
 
             return Ok(_mapper.Map<IEnumerable<AlunoDto>>(alunos));
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var aluno = _repo.GetAlunoById(id, false);
 
@@ -37,11 +38,11 @@ namespace SmartSchool.WebApi.Controllers
                 return BadRequest("Aluno não encontrado");
             
             var alunoDto = _mapper.Map<AlunoDto>(aluno);
-            return Ok(aluno);
+            return Ok(alunoDto);
         }
 
         [HttpPost()]
-        public IActionResult Post(AlunoRegistrarDto model)
+        public async Task<IActionResult> Post(AlunoRegistrarDto model)
         {
             var aluno = _mapper.Map<Aluno>(model);
             _repo.Add(aluno);
@@ -53,10 +54,10 @@ namespace SmartSchool.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, AlunoRegistrarDto model)
+        public async Task<IActionResult> Put(int id, AlunoRegistrarDto model)
         {
             var aluno = _mapper.Map<Aluno>(model);
-            aluno = _repo.GetAlunoById(id, false);
+            aluno = await _repo.GetAlunoById(id, false);
 
             if(aluno == null) 
                 return BadRequest("Aluno não encontrado");
@@ -69,10 +70,10 @@ namespace SmartSchool.WebApi.Controllers
             return BadRequest("Aluno não cadastrado");
         }
         [HttpPatch("{id}")]
-        public IActionResult Patch(int id, AlunoRegistrarDto model)
+        public async Task<IActionResult> Patch(int id, AlunoRegistrarDto model)
         {
             var aluno = _mapper.Map<Aluno>(model);
-            aluno = _repo.GetAlunoById(id, false);
+            aluno = await _repo.GetAlunoById(id, false);
             if(aluno == null) 
                 return BadRequest("Aluno não encontrado");
             
@@ -84,9 +85,9 @@ namespace SmartSchool.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var aluno = _repo.GetAlunoById(id, false);
+            var aluno = await _repo.GetAlunoById(id, false);
             if(aluno == null) return BadRequest("Aluno não encontrado");
             
             _repo.Delete(aluno);

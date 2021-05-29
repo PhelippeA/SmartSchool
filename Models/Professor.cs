@@ -7,7 +7,7 @@ namespace SmartSchool.WebApi.Models
     {
         public Professor() {}
         
-        public Professor(int id, int registro, string nome,string sobrenome)
+        public Professor(int id, int registro, string nome, string sobrenome)
         {
             this.Id = id;
             this.Registro = registro;
