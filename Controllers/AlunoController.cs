@@ -4,7 +4,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SmartSchool.WebApi.Data;
 using SmartSchool.WebApi.Dtos.AlunoDtos;
+using SmartSchool.WebApi.Helpers;
 using SmartSchool.WebApi.Models;
+using SmartSchool.WebApi.Helpers.Extensions;
 
 namespace SmartSchool.WebApi.Controllers
 {
@@ -22,17 +24,20 @@ namespace SmartSchool.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]PageParams pageParams)
         {
-            var alunos = await _repo.GetAllAlunos(true);
+            var alunos = await _repo.GetAllAlunos(pageParams, true);
+            var alunosDto = _mapper.Map<IEnumerable<AlunoDto>>(alunos); 
+            
+            Response.AddPagination(alunos.CurrentPage, alunos.TotalPages, alunos.PageSize, alunos.TotalItems);
 
-            return Ok(_mapper.Map<IEnumerable<AlunoDto>>(alunos));
+            return Ok(alunosDto);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var aluno = _repo.GetAlunoById(id, false);
+            var aluno = await _repo.GetAlunoById(id, false);
 
             if (aluno == null) 
                 return BadRequest("Aluno não encontrado");
@@ -45,7 +50,7 @@ namespace SmartSchool.WebApi.Controllers
         public async Task<IActionResult> Post(AlunoRegistrarDto model)
         {
             var aluno = _mapper.Map<Aluno>(model);
-            _repo.Add(aluno);
+            await _repo.Add(aluno);
 
             if(_repo.SaveChanges())
                 return Created($"api/aluno/{aluno.Id}", model);

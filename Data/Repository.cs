@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SmartSchool.WebApi.Helpers;
 using SmartSchool.WebApi.Models;
 
 namespace SmartSchool.WebApi.Data
@@ -12,14 +13,14 @@ namespace SmartSchool.WebApi.Data
         public Repository(SmartSchoolContext context){
             _context = context;
         }
-        void IRepository.Add<T>(T entity) where T: class 
+        async Task IRepository.Add<T>(T entity) where T: class 
         {
-            _context.Add(entity);
+            await _context.AddAsync(entity);
         }
 
         void IRepository.Update<T>(T entity) where T: class
         {
-            _context.Update(entity);
+             _context.Update(entity);
         }
         void IRepository.Delete<T>(T entity) where T: class
         {
@@ -31,7 +32,7 @@ namespace SmartSchool.WebApi.Data
             return _context.SaveChanges() > 0;
         }
 
-        public async Task<Aluno[]> GetAllAlunos(bool includeProfessor = false)
+        public async Task<PageList<Aluno>> GetAllAlunos(PageParams pageParams, bool includeProfessor = false)
         {
             IQueryable<Aluno> query = _context.Alunos;
             
@@ -41,8 +42,8 @@ namespace SmartSchool.WebApi.Data
                              .ThenInclude(d => d.Professor);
             }
             query = query.AsNoTracking().OrderBy(a => a.Id);
-            
-            return await query.ToArrayAsync();
+
+            return await PageList<Aluno>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);            
         }
 
         public async Task<Aluno[]> GetAllAlunosByDisciplinaId(int disciplinaId, bool includeProfessor = false)
@@ -77,7 +78,7 @@ namespace SmartSchool.WebApi.Data
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Professor[]> GetAllProfessores(bool includeAlunos)
+        public async Task<PageList<Professor>> GetAllProfessores(PageParams pageParams, bool includeAlunos)
         {
             IQueryable<Professor> query = _context.Professores;
             
@@ -88,7 +89,7 @@ namespace SmartSchool.WebApi.Data
             }
             query = query.AsNoTracking().OrderBy(p => p.Id);
             
-            return await query.ToArrayAsync();
+            return await PageList<Professor>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
         }
 
         public async Task<Professor[]> GetAllProfessoresByDisciplinaId(int disciplinaId, bool includeAlunos)
